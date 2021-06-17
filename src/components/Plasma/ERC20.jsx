@@ -60,29 +60,40 @@ function ERC20Plasma({ account, Networkid, selectedToken, maticProvider, ethereu
 
   return (
     <div id="PlasmaERC20" hidden={selectedToken.label === "ERC20" ? false : true}>
-      <button onClick={depositERC20Plasma} disabled={
-        Networkid !== 0 && Networkid === config.MATIC_CHAINID
-          ? true : false
-      }> Deposit</button>
 
-      <button onClick={burnERC20Plasma} disabled={
-        Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
-          ? true : false
-      }> burn </button>
-      <button onClick={confirmWithdrawERC20Plasma} disabled={
-        Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
-          ? false : true
-      }> Confirm Withdraw </button>
-
-      <button onClick={exitERC20Plasma} disabled={
-        Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
-          ? false : true
-      }> exit </button>
-
+      <div className="input-group">
+        <span className="input-group-text">Value</span>
+        <input id="PlasmaERC20" type="text" className="form-control" placeholder="value" name="inputValue"
+          value={inputValue} onChange={(e) => setInputValue(e.target.value)} required
+        />
+      </div>
       <br />
-      <input id="inputValue" type="text" placeholder="value" name="inputValue"
-        value={inputValue} onChange={(e) => setInputValue(e.target.value)} required
-      />
+
+      <div className="btn-group">
+        <button className="btn btn-dark"
+          onClick={depositERC20Plasma} disabled={
+            Networkid !== 0 && Networkid === config.MATIC_CHAINID
+              ? true : false
+          }> Deposit</button>
+
+        <button className="btn btn-dark ms-2"
+          onClick={burnERC20Plasma} disabled={
+            Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
+              ? true : false
+          }> burn </button>
+        <button className="btn btn-dark ms-2"
+          onClick={confirmWithdrawERC20Plasma} disabled={
+            Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
+              ? false : true
+          }> Confirm Withdraw </button>
+
+        <button className="btn btn-dark ms-2"
+          onClick={exitERC20Plasma} disabled={
+            Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
+              ? false : true
+          }> exit </button>
+      </div>
+
       <p id="burnHash">{hash}</p>
     </div>
   )

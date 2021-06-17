@@ -4,7 +4,8 @@ import Onboard from 'bnc-onboard'
 import config from './config.json';
 
 const networkId = config.ETHEREUM_CHAINID;
-const rpcUrl = `https://rinkeby.infura.io/v3/${config.ETHEREUM_RPC}`
+const ethRpcUrl = `https://rinkeby.infura.io/v3/${config.ETHEREUM_RPC}`
+const maticRpcUrl = `https://rinkeby.infura.io/v3/${config.MATIC_RPC}`
 const dappId = 'daf7a7b8-fa67-43c7-a19f-33a7c44e31c0'
 
 export const initOnboard = (subscriptions) => {
@@ -13,7 +14,7 @@ export const initOnboard = (subscriptions) => {
     networkId: networkId,
     subscriptions,
     walletSelect: {
-      wallets: wallets,
+      wallets: wallets(networkId),
     },
     darkMode: true,
     walletCheck: [
@@ -26,53 +27,59 @@ export const initOnboard = (subscriptions) => {
   });
 }
 
-const wallets = [
-  { walletName: 'metamask' },
-  {
-    walletName: 'trezor',
-    appUrl: '',
-    email: '',
-    rpcUrl
-  },
-  {
-    walletName: 'ledger',
-    rpcUrl
-  },
-  {
-    walletName: 'walletConnect',
-    infuraKey: 'cea9deb6467748b0b81b920b005c10c1'
-  },
-  { walletName: 'cobovault', appName: 'POS Bridge', rpcUrl },
-  {
-    walletName: 'lattice',
-    appName: 'Onboard Demo',
-    rpcUrl
-  },
-  { walletName: 'coinbase' },
-  { walletName: 'status' },
-  { walletName: 'walletLink', rpcUrl },
-  {
-    walletName: 'portis',
-    apiKey: 'b2b7586f-2b1e-4c30-a7fb-c2d1533b153b'
-  },
-  { walletName: 'fortmatic', apiKey: 'pk_test_886ADCAB855632AA' },
-  { walletName: 'torus' },
-  { walletName: 'trust', rpcUrl },
-  { walletName: 'opera' },
-  { walletName: 'operaTouch' },
-  { walletName: 'imToken', rpcUrl },
-  { walletName: 'meetone' },
-  { walletName: 'mykey', rpcUrl },
-  { walletName: 'wallet.io', rpcUrl },
-  { walletName: 'huobiwallet', rpcUrl },
-  { walletName: 'hyperpay' },
-  { walletName: 'atoken' },
-  { walletName: 'liquality' },
-  { walletName: 'frame' },
-  { walletName: 'tokenpocket', rpcUrl },
-  { walletName: 'authereum', disableNotifications: true },
-  { walletName: 'ownbit' },
-  { walletName: 'gnosis' },
-  { walletName: 'bitpie' },
-  { walletName: 'xdefi' },
-]
+const wallets = (cahinId) => {
+  return [
+    { walletName: 'metamask' },
+    {
+      walletName: 'trezor',
+      appUrl: '',
+      email: '',
+      rpcUrl: cahinId === config.ETHEREUM_CHAINID ? ethRpcUrl : maticRpcUrl
+    },
+    {
+      walletName: 'ledger',
+      rpcUrl: cahinId === config.ETHEREUM_CHAINID ? ethRpcUrl : maticRpcUrl
+    },
+    {
+      walletName: 'walletConnect',
+      infuraKey: cahinId === config.ETHEREUM_CHAINID ? config.ETHEREUM_RPC : config.MATIC_RPC
+    },
+    {
+      walletName: 'cobovault',
+      appName: 'POS Bridge',
+      rpcUrl: cahinId === config.ETHEREUM_CHAINID ? ethRpcUrl : maticRpcUrl
+    },
+    {
+      walletName: 'lattice',
+      appName: 'Onboard Demo',
+      rpcUrl: cahinId === config.ETHEREUM_CHAINID ? ethRpcUrl : maticRpcUrl
+    },
+    { walletName: 'coinbase' },
+    { walletName: 'status' },
+    { walletName: 'walletLink', rpcUrl: cahinId === config.ETHEREUM_CHAINID ? ethRpcUrl : maticRpcUrl },
+    {
+      walletName: 'portis',
+      apiKey: 'b2b7586f-2b1e-4c30-a7fb-c2d1533b153b'
+    },
+    { walletName: 'fortmatic', apiKey: 'pk_test_886ADCAB855632AA' },
+    { walletName: 'torus' },
+    { walletName: 'trust', rpcUrl: cahinId === config.ETHEREUM_CHAINID ? ethRpcUrl : maticRpcUrl },
+    { walletName: 'opera' },
+    { walletName: 'operaTouch' },
+    { walletName: 'imToken', rpcUrl: cahinId === config.ETHEREUM_CHAINID ? ethRpcUrl : maticRpcUrl },
+    { walletName: 'meetone' },
+    { walletName: 'mykey', rpcUrl: cahinId === config.ETHEREUM_CHAINID ? ethRpcUrl : maticRpcUrl },
+    { walletName: 'wallet.io', rpcUrl: cahinId === config.ETHEREUM_CHAINID ? ethRpcUrl : maticRpcUrl },
+    { walletName: 'huobiwallet', rpcUrl: cahinId === config.ETHEREUM_CHAINID ? ethRpcUrl : maticRpcUrl },
+    { walletName: 'hyperpay' },
+    { walletName: 'atoken' },
+    { walletName: 'liquality' },
+    { walletName: 'frame' },
+    { walletName: 'tokenpocket', rpcUrl: cahinId === config.ETHEREUM_CHAINID ? ethRpcUrl : maticRpcUrl },
+    { walletName: 'authereum', disableNotifications: true },
+    { walletName: 'ownbit' },
+    { walletName: 'gnosis' },
+    { walletName: 'bitpie' },
+    { walletName: 'xdefi' },
+  ]
+}

@@ -64,13 +64,24 @@ const App = () => {
     setEthereumProvider(ethereumProvider);
   }, [])
 
+  // onLoad select previous selected weallet
   useEffect(() => {
+    console.log("onboard change detected...")
     const previouslySelectedWallet = window.localStorage.getItem('selectedWallet')
     if (previouslySelectedWallet && onboard) {
       onboard.walletSelect(previouslySelectedWallet);
     }
   }, [onboard])
 
+  // on network change update config
+  useEffect(() => {
+    if (Networkid === config.MATIC_CHAINID)
+      onboard.config({ networkId: config.MATIC_CHAINID });
+    else if (Networkid === config.ETHEREUM_CHAINID)
+      onboard.config({ networkId: config.ETHEREUM_CHAINID });
+  }, [Networkid, onboard])
+
+  // label for select dropdown ui (POS or Plasma)
   const bridgeOptions = [
     { label: "Proof of Stake", value: "Proof of Stake" },
     { label: "Plasma", value: "Plasma" }
@@ -79,37 +90,29 @@ const App = () => {
     { label: "Ether", value: "Ether" },
     { label: "ERC20", value: "ERC20" }
   ];
-
-  const [selectedBridgeOption, setSelectedBridgeOption] = useState({
-    label: "Proof of Stake",
-  });
-  const [selectedToken, setSelectedToken] = useState({
-    label: "Ether",
-  });
+  const [selectedBridgeOption, setSelectedBridgeOption] = useState({ label: "Proof of Stake" });
+  const [selectedToken, setSelectedToken] = useState({ label: "Ether" });
 
   return (
     <React.Fragment>
       <Navbar account={account} onboard={onboard} />
-      <div>
-        <select onChange={(e) => setSelectedBridgeOption({ label: e.target.value })}>
+      <main style={{ maxWidth: 500, margin: '60px auto', textAlign: 'center' }}>
+        <select className="form-select mb-3" onChange={(e) => setSelectedBridgeOption({ label: e.target.value })}>
           {bridgeOptions.map((item) => (
             <option key={item.value} value={item.value}>
               {item.label}
             </option>
           ))}
         </select>
-      </div>
-      <div>
-        <select onChange={(e) => setSelectedToken({ label: e.target.value })}>
+        <select className="form-select mb-3" onChange={(e) => setSelectedToken({ label: e.target.value })}>
           {tokenTypes.map((item) => (
             <option key={item.value} value={item.value}>
               {item.label}
             </option>
           ))}
         </select>
-      </div>
 
-      {/**
+        {/**
          * POS ether functionality
          * POS ERC20 functionality
          * 
@@ -117,47 +120,46 @@ const App = () => {
          * Plasma ERC20 functionality
       */}
 
-      {/* =>> POS */}
-      <div
-        id="POS"
-        hidden={selectedBridgeOption.label === "Proof of Stake" ? false : true}>
-        <EtherPOS
-          onboard={onboard}
-          account={account}
-          Networkid={Networkid}
-          selectedToken={selectedToken}
-          maticProvider={maticProvider}
-          ethereumprovider={ethereumprovider}
-        />
-        <ERC20POS
-          onboard={onboard}
-          account={account}
-          Networkid={Networkid}
-          selectedToken={selectedToken}
-          maticProvider={maticProvider}
-          ethereumprovider={ethereumprovider}
-        />
-      </div>
+        {/* =>> POS */}
+        <div id="POS" hidden={selectedBridgeOption.label === "Proof of Stake" ? false : true}>
+          <EtherPOS
+            onboard={onboard}
+            account={account}
+            Networkid={Networkid}
+            selectedToken={selectedToken}
+            maticProvider={maticProvider}
+            ethereumprovider={ethereumprovider}
+          />
+          <ERC20POS
+            onboard={onboard}
+            account={account}
+            Networkid={Networkid}
+            selectedToken={selectedToken}
+            maticProvider={maticProvider}
+            ethereumprovider={ethereumprovider}
+          />
+        </div>
 
-      {/* =>> Plasma */}
-      <div id="plasma" hidden={selectedBridgeOption.label === "Plasma" ? false : true}>
-        <EtherPlasma
-          onboard={onboard}
-          account={account}
-          Networkid={Networkid}
-          selectedToken={selectedToken}
-          maticProvider={maticProvider}
-          ethereumprovider={ethereumprovider}
-        />
-        <ERC20Plasma
-          onboard={onboard}
-          account={account}
-          Networkid={Networkid}
-          selectedToken={selectedToken}
-          maticProvider={maticProvider}
-          ethereumprovider={ethereumprovider}
-        />
-      </div>
+        {/* =>> Plasma */}
+        <div id="plasma" hidden={selectedBridgeOption.label === "Plasma" ? false : true}>
+          <EtherPlasma
+            onboard={onboard}
+            account={account}
+            Networkid={Networkid}
+            selectedToken={selectedToken}
+            maticProvider={maticProvider}
+            ethereumprovider={ethereumprovider}
+          />
+          <ERC20Plasma
+            onboard={onboard}
+            account={account}
+            Networkid={Networkid}
+            selectedToken={selectedToken}
+            maticProvider={maticProvider}
+            ethereumprovider={ethereumprovider}
+          />
+        </div>
+      </main>
     </React.Fragment>
   );
 };

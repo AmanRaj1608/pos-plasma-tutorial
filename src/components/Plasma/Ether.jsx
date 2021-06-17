@@ -58,29 +58,39 @@ function EtherPlasma({ account, Networkid, selectedToken, maticProvider, ethereu
 
   return (
     <div id="PlasmaEther" hidden={selectedToken.label === "Ether" ? false : true}>
-      <button onClick={depositEtherPlasma} disabled={
-        Networkid !== 0 && Networkid === config.MATIC_CHAINID
-          ? true : false
-      }> Deposit</button>
-
-      <button onClick={burnEtherPlasma} disabled={
-        Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
-          ? true : false
-      }> burn</button>
-      <button onClick={confirmWithdrawEtherPlasma} disabled={
-        Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
-          ? false : true
-      }> Confirm Withdraw</button>
-
-      <button onClick={exitEtherPlasma} disabled={
-        Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
-          ? false : true
-      }> exit</button>
-
+      <div className="input-group">
+        <span className="input-group-text">Value Ξ</span>
+        <input id="PlasmaEther" type="text" className="form-control" placeholder="value" name="inputValue"
+          value={inputValue} onChange={(e) => setInputValue(e.target.value)} required
+        />
+      </div>
       <br />
-      <input id="inputValue" type="text" placeholder="value" name="inputValue"
-        value={inputValue} onChange={(e) => setInputValue(e.target.value)} required
-      />
+
+      <div className="btn-group">
+        <button className="btn btn-dark"
+          onClick={depositEtherPlasma} disabled={
+            Networkid !== 0 && Networkid === config.MATIC_CHAINID
+              ? true : false
+          }> Deposit</button>
+
+        <button className="btn btn-dark ms-2"
+          onClick={burnEtherPlasma} disabled={
+            Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
+              ? true : false
+          }> burn</button>
+        <button className="btn btn-dark ms-2"
+          onClick={confirmWithdrawEtherPlasma} disabled={
+            Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
+              ? false : true
+          }> Confirm Withdraw</button>
+
+        <button className="btn btn-dark ms-2"
+          onClick={exitEtherPlasma} disabled={
+            Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
+              ? false : true
+          }> exit</button>
+      </div>
+
       <p id="burnHash">{hash}</p>
     </div>
   )

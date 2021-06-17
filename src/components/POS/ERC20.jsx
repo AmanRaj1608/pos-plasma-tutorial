@@ -51,26 +51,35 @@ function ERC20POS({ account, Networkid, selectedToken, maticProvider, ethereumpr
 
   return (
     <div id="ERC20" hidden={selectedToken.label === "ERC20" ? false : true}>
-      <button onClick={depositERC20} disabled={
-        Networkid !== 0 && Networkid === config.MATIC_CHAINID
-          ? true : false
-      }> Deposit</button>
 
-      <button onClick={burnERC20} disabled={
-        Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
-          ? true : false
-      }> burn</button>
-
-      <button onClick={exitERC20} disabled={
-        Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
-          ? false : true
-      }> exit </button>
-
+      <div className="input-group">
+        <span className="input-group-text">Value Ξ</span>
+        <input id="ERC20POS" type="text" className="form-control" placeholder="value" name="inputValue"
+          value={inputValue} onChange={(e) => setInputValue(e.target.value)} required
+        />
+      </div>
       <br />
 
-      <input id="inputValue" type="text" placeholder="value" name="inputValue"
-        value={inputValue} onChange={(e) => setInputValue(e.target.value)} required
-      />
+      <div className="btn-group">
+        <button className="btn btn-dark"
+          onClick={depositERC20} disabled={
+            Networkid !== 0 && Networkid === config.MATIC_CHAINID
+              ? true : false
+          }> Deposit</button>
+
+        <button className="btn btn-dark ms-2"
+          onClick={burnERC20} disabled={
+            Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
+              ? true : false
+          }> burn</button>
+
+        <button className="btn btn-dark ms-2"
+          onClick={exitERC20} disabled={
+            Networkid !== 0 && Networkid === config.ETHEREUM_CHAINID
+              ? false : true
+          }> exit </button>
+      </div>
+
       <p id="burnHash">{hash}</p>
     </div>
   )
